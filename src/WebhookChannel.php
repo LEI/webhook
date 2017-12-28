@@ -52,9 +52,11 @@ class WebhookChannel
 
         $webhookData = $notification->toWebhook($notifiable)->toArray();
 
-        $key = Arr::get($webhookData, 'dataKey') ?: $this->dataKey;
+        $key = $notification->dataKey ?: $this->dataKey;
+
         $data = Arr::get($webhookData, 'data');
-        if ($this->encodeAsJSON === true) {
+
+        if ($notification->encodeAsJSON ?: $this->encodeAsJSON === true) {
             $data = json_encode($data);
         }
 
