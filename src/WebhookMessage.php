@@ -14,21 +14,37 @@ class WebhookMessage
     protected $userAgent;
 
     /**
+     * The request data key.
+     *
+     * @var string
+     */
+    public $dataKey;
+
+    /**
+     * Encode data as JSON.
+     *
+     * @var bool
+     */
+    public $encodeAsJSON;
+
+    /**
      * @param mixed $data
      *
      * @return static
      */
-    public static function create($data = '')
+    public static function create($data = '', $key = 'data', $json = true)
     {
-        return new static($data);
+        return new static($data, $key, $json);
     }
 
     /**
      * @param mixed $data
      */
-    public function __construct($data = '')
+    public function __construct($data = '', $key = 'data', $json = true)
     {
         $this->data = $data;
+        $this->dataKey = $key;
+        $this->encodeAsJSON = $json;
     }
 
     /**
