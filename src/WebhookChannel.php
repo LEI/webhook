@@ -13,6 +13,20 @@ class WebhookChannel
     protected $client;
 
     /**
+     * The data key.
+     *
+     * @var string
+     */
+    public $dataKey = 'data';
+
+    /**
+     * Encode data as JSON.
+     *
+     * @var bool
+     */
+    public $encodeJSON = true;
+
+    /**
      * @param Client $client
      */
     public function __construct(Client $client)
@@ -36,8 +50,14 @@ class WebhookChannel
 
         $webhookData = $notification->toWebhook($notifiable)->toArray();
 
+        $data = Arr::get($webhookData, 'data');
+        if ($this->encodeJSON === true) {
+            $data = json_encode($data);
+        }
+
         $response = $this->client->post($url, [
-            'body' => json_encode(Arr::get($webhookData, 'data')),
+            // 'body' => json_encode(Arr::get($webhookData, 'data')),
+            $dataKey => $data,
             'verify' => false,
             'headers' => Arr::get($webhookData, 'headers'),
         ]);
