@@ -17,21 +17,23 @@ class WebhookChannel
      *
      * @var string
      */
-    public $dataKey = 'data';
+    public $dataKey;
 
     /**
      * Encode data as JSON.
      *
      * @var bool
      */
-    public $encodeAsJSON = true;
+    public $encodeAsJSON;
 
     /**
      * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, $key = 'data', $json = true)
     {
         $this->client = $client;
+        $this->dataKey = $key;
+        $this->encodeAsJSON = $json;
     }
 
     /**
